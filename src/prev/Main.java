@@ -1,0 +1,8 @@
+/**
+ * Main entry point for the game
+ */
+public class Main {
+    public static void main(String[] args) {
+        new core.Game();
+    }
+} 
