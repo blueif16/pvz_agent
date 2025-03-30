@@ -10,9 +10,7 @@ import ui.InputHandler;
 import utils.AssetManager;
 import utils.LevelManager;
 
-/**
- * Main game loop and initialization
- */
+
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     
@@ -29,7 +27,6 @@ public class Game extends Canvas implements Runnable {
     private LevelManager levelManager;
     
     public Game() {
-        // Initialize game components
         AssetManager.loadAssets();
         
         gameState = new GameState();
@@ -38,7 +35,6 @@ public class Game extends Canvas implements Runnable {
         
         window = new GameWindow(WIDTH, HEIGHT, TITLE, this);
         
-        // Start the game
         levelManager.loadLevel(1);
     }
     
@@ -113,7 +109,6 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         
-        // Draw background
         g.drawImage(AssetManager.getImage("background"), 0, 0, null);
         
         // Render game state

@@ -3,9 +3,6 @@ package core;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-/**
- * Base class for all game objects
- */
 public abstract class GameObject {
     protected float x, y;
     protected float velocityX, velocityY;

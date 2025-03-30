@@ -21,7 +21,7 @@ public class GameState {
     private int progress = 0;
     private int currentLevel = 1;
     
-    @SuppressWarnings("unchecked")
+
     public GameState() {
         gameObjects = new CopyOnWriteArrayList<>();
         
