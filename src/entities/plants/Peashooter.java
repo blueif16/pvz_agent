@@ -3,9 +3,6 @@ package entities.plants;
 import core.GameState;
 import entities.projectiles.Pea;
 
-/**
- * Peashooter plant that shoots peas
- */
 public class Peashooter extends Plant {
     private static final int COST = 100;
     private static final int HEALTH = 200;
@@ -19,9 +16,8 @@ public class Peashooter extends Plant {
     
     @Override
     public void action() {
-        // Only shoot if there are zombies in this lane
         if (!gameState.getZombiesInLane(lane).isEmpty()) {
-            Pea pea = new Pea(gameState, x + width, y + height/2, lane);
+            Pea pea = new Pea(gameState, x + width, y, lane);
             gameState.addGameObject(pea);
         }
     }

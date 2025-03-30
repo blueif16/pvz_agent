@@ -3,9 +3,6 @@ package entities.projectiles;
 import core.GameState;
 import entities.zombies.Zombie;
 
-/**
- * Standard pea projectile
- */
 public class Pea extends Projectile {
     private static final int DAMAGE = 300;
     private static final float SPEED = 300.0f;

@@ -7,9 +7,7 @@ import core.GameObject;
 import core.GameState;
 import utils.AssetManager;
 
-/**
- * Base class for all plants
- */
+
 public abstract class Plant extends GameObject {
     protected int health;
     protected int cost;

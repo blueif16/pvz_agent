@@ -9,9 +9,6 @@ import core.GameState;
 import entities.plants.Plant;
 import utils.AssetManager;
 
-/**
- * Base class for all zombies
- */
 public abstract class Zombie extends GameObject {
     protected int health;
     protected float speed;
@@ -22,7 +19,7 @@ public abstract class Zombie extends GameObject {
     protected float slowTimer;
     
     public Zombie(GameState gameState, int lane, int health, float speed, int damage, String imageName) {
-        super(gameState, 1000, 109 + lane * 120, 100, 120);
+        super(gameState, 1000, 109 + lane * 120, 20, 120);
         this.lane = lane;
         this.health = health;
         this.speed = speed;
@@ -40,7 +37,6 @@ public abstract class Zombie extends GameObject {
             return;
         }
         
-        // Update slow effect
         if (slowed) {
             slowTimer -= deltaTime;
             if (slowTimer <= 0) {
@@ -48,30 +44,25 @@ public abstract class Zombie extends GameObject {
             }
         }
         
-        // Check for plant collisions
         Plant collidedPlant = checkPlantCollision();
         
         if (collidedPlant != null) {
-            // Attack plant
-            collidedPlant.takeDamage(damage * deltaTime);
+            collidedPlant.takeDamage((int)(damage * deltaTime));
         } else {
-            // Move forward
             float actualSpeed = slowed ? speed * 0.5f : speed;
             x -= actualSpeed * deltaTime;
         }
         
-        // Check if zombie reached the house
         if (x < 0) {
-            // Game over
             System.out.println("ZOMBIES ATE YOUR BRAIN!");
-            // TODO: Implement game over logic
+            
         }
     }
     
     @Override
     public void render(Graphics g) {
         Image image = AssetManager.getImage(imageName);
-        g.drawImage(image, (int)x, (int)y, null);
+        g.drawImage(image, (int)x, (int)y - 10, null);
     }
     
     private Plant checkPlantCollision() {

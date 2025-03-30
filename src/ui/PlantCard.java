@@ -7,9 +7,7 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
-/**
- * UI component for a plant card in the selector
- */
+
 public class PlantCard extends JPanel {
     private static final long serialVersionUID = 1L;
     
@@ -31,25 +29,7 @@ public class PlantCard extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        // Draw card background
-        if (selected) {
-            g.setColor(new Color(255, 255, 200));
-        } else {
-            g.setColor(new Color(220, 220, 220));
-        }
-        g.fillRect(0, 0, getWidth(), getHeight());
-        
-        // Draw border
-        g.setColor(Color.BLACK);
-        g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-        
-        // Draw plant image
-        g.drawImage(cardImage, 2, 2, getWidth() - 4, getHeight() - 20, null);
-        
-        // Draw cost
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 12));
-        g.drawString(String.valueOf(cost), getWidth() / 2 - 5, getHeight() - 5);
+        g.drawImage(cardImage, 0, 0, getWidth() , getHeight() , null);
     }
     
     public void setSelected(boolean selected) {

@@ -9,9 +9,7 @@ import core.GameObject;
 import core.GameState;
 import utils.AssetManager;
 
-/**
- * Sun entity that can be collected for resources
- */
+
 public class Sun extends GameObject implements MouseListener {
     private static final int SUN_VALUE = 25;
     private static final float FALL_SPEED = 80.0f;
@@ -35,14 +33,12 @@ public class Sun extends GameObject implements MouseListener {
             return;
         }
         
-        // Fall until reaching target Y
         if (y < targetY) {
             y += FALL_SPEED * deltaTime;
             if (y > targetY) {
                 y = targetY;
             }
         } else {
-            // Count down lifetime
             lifeTimer -= deltaTime;
             if (lifeTimer <= 0) {
                 setActive(false);

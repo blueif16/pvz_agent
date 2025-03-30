@@ -3,9 +3,6 @@ package entities.plants;
 import core.GameState;
 import entities.Sun;
 
-/**
- * Sunflower plant that produces sun
- */
 public class Sunflower extends Plant {
     private static final int COST = 50;
     private static final int HEALTH = 200;
@@ -19,7 +16,6 @@ public class Sunflower extends Plant {
     
     @Override
     public void action() {
-        // Create a new sun at this position
         Sun sun = new Sun(gameState, x, y, y + 20);
         gameState.addGameObject(sun);
     }

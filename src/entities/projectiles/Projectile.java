@@ -6,12 +6,11 @@ import java.util.List;
 
 import core.GameObject;
 import core.GameState;
+import core.Game;
 import entities.zombies.Zombie;
 import utils.AssetManager;
 
-/**
- * Base class for all projectiles
- */
+
 public abstract class Projectile extends GameObject {
     protected int damage;
     protected float speed;
@@ -28,10 +27,8 @@ public abstract class Projectile extends GameObject {
     
     @Override
     public void update(float deltaTime) {
-        // Move forward
         x += speed * deltaTime;
         
-        // Check for zombie collisions
         Zombie hitZombie = checkZombieCollision();
         
         if (hitZombie != null) {
@@ -39,7 +36,6 @@ public abstract class Projectile extends GameObject {
             setActive(false);
         }
         
-        // Remove if off screen
         if (x > Game.WIDTH) {
             setActive(false);
         }

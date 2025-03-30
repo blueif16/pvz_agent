@@ -10,14 +10,11 @@ import entities.projectiles.Projectile;
 import entities.zombies.Zombie;
 import entities.Sun;
 
-/**
- * Manages the game state and all game objects
- */
 public class GameState {
     private List<GameObject> gameObjects;
-    private List<Plant>[] plants; // Plants organized by lane
-    private List<Zombie>[] zombies; // Zombies organized by lane
-    private List<Projectile>[] projectiles; // Projectiles organized by lane
+    private List<Plant>[] plants;
+    private List<Zombie>[] zombies;
+    private List<Projectile>[] projectiles;
     private List<Sun> suns;
     
     private int sunScore = 150;
@@ -28,7 +25,6 @@ public class GameState {
     public GameState() {
         gameObjects = new CopyOnWriteArrayList<>();
         
-        // Initialize lane-based collections
         plants = new ArrayList[5];
         zombies = new ArrayList[5];
         projectiles = new ArrayList[5];
@@ -43,17 +39,14 @@ public class GameState {
     }
     
     public void update(float deltaTime) {
-        // Update all game objects
         for (GameObject obj : gameObjects) {
             if (obj.isActive()) {
                 obj.update(deltaTime);
             }
         }
         
-        // Remove inactive objects
         gameObjects.removeIf(obj -> !obj.isActive());
         
-        // Clean up lane collections
         for (int i = 0; i < 5; i++) {
             plants[i].removeIf(plant -> !plant.isActive());
             zombies[i].removeIf(zombie -> !zombie.isActive());
@@ -74,7 +67,6 @@ public class GameState {
     public void addGameObject(GameObject obj) {
         gameObjects.add(obj);
         
-        // Add to appropriate collection based on type
         if (obj instanceof Plant) {
             Plant plant = (Plant) obj;
             plants[plant.getLane()].add(plant);
@@ -92,7 +84,6 @@ public class GameState {
     public void removeGameObject(GameObject obj) {
         gameObjects.remove(obj);
         
-        // Remove from appropriate collection based on type
         if (obj instanceof Plant) {
             Plant plant = (Plant) obj;
             plants[plant.getLane()].remove(plant);
@@ -106,8 +97,7 @@ public class GameState {
             suns.remove(obj);
         }
     }
-    
-    // Getters and setters
+
     public List<Plant> getPlantsInLane(int lane) {
         return plants[lane];
     }

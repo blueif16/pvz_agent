@@ -3,9 +3,6 @@ package entities.plants;
 import core.GameState;
 import entities.projectiles.FreezePea;
 
-/**
- * Freeze Peashooter plant that shoots freeze peas
- */
 public class FreezePeashooter extends Plant {
     private static final int COST = 175;
     private static final int HEALTH = 200;
@@ -19,9 +16,8 @@ public class FreezePeashooter extends Plant {
     
     @Override
     public void action() {
-        // Only shoot if there are zombies in this lane
         if (!gameState.getZombiesInLane(lane).isEmpty()) {
-            FreezePea freezePea = new FreezePea(gameState, x + width, y + height/2, lane);
+            FreezePea freezePea = new FreezePea(gameState, x + width, y, lane);
             gameState.addGameObject(freezePea);
         }
     }

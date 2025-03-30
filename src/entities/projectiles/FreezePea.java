@@ -3,9 +3,7 @@ package entities.projectiles;
 import core.GameState;
 import entities.zombies.Zombie;
 
-/**
- * Freeze pea projectile that slows zombies
- */
+
 public class FreezePea extends Projectile {
     private static final int DAMAGE = 300;
     private static final float SPEED = 300.0f;

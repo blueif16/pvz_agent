@@ -133,6 +133,8 @@ public class Game extends Canvas implements Runnable {
     public GameState getGameState() {
         return gameState;
     }
+
+    public GameWindow getWindow() { return window; }
     
     public InputHandler getInputHandler() {
         return inputHandler;
