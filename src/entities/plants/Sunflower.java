@@ -9,7 +9,7 @@ public class Sunflower extends Plant {
     private static final float SUN_PRODUCTION_COOLDOWN = 15.0f;
     
     public Sunflower(GameState gameState, int gridX, int lane) {
-        super(gameState, gridX, lane, COST, HEALTH, "sunflower");
+        super(gameState, gridX, lane, COST, HEALTH, "sunflower", "Sunflower");
         this.cooldown = SUN_PRODUCTION_COOLDOWN;
         this.cooldownTimer = cooldown;
     }

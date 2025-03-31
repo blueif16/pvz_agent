@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 import ui.GameWindow;
 import ui.InputHandler;
@@ -25,6 +26,10 @@ public class Game extends Canvas implements Runnable {
     private GameWindow window;
     private InputHandler inputHandler;
     private LevelManager levelManager;
+
+    private RewardCounter rewardCounter;
+
+    private boolean isTraining = false;
     
     public Game() {
         AssetManager.loadAssets();
@@ -36,6 +41,7 @@ public class Game extends Canvas implements Runnable {
         window = new GameWindow(WIDTH, HEIGHT, TITLE, this);
         
         levelManager.loadLevel(1);
+        rewardCounter = new RewardCounter(gameState);
     }
     
     public synchronized void start() {
@@ -65,15 +71,31 @@ public class Game extends Canvas implements Runnable {
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
+
+        int cumDelta = 0;
         
         while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
-            
+
+            cumDelta ++;
+
+            if (cumDelta >= 30 && isTraining) {
+                int[] actionMask = rewardCounter.getActionMask();
+                int actionIndex = Connector.send(gameState, actionMask, rewardCounter.getReward());
+                
+                // Execute the selected action
+                rewardCounter.executeAction(actionIndex, this);
+                
+                cumDelta = 0;
+            }
+
             while (delta >= 1) {
                 update(1.0f / 60.0f);
                 delta--;
+
+                rewardCounter.addRewardForSurvive(1);
             }
             
             if (running) {
@@ -83,7 +105,8 @@ public class Game extends Canvas implements Runnable {
             
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println("FPS: " + frames);
+                gameState.decreaseCooldowns();
+//                System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
@@ -137,5 +160,18 @@ public class Game extends Canvas implements Runnable {
     
     public LevelManager getLevelManager() {
         return levelManager;
+    }
+
+    public void setTrainingMode(boolean isTraining) {
+        this.isTraining = isTraining;
+        if (isTraining) {
+            Connector.initConnection();
+        } else {
+            Connector.closeConnection();
+        }
+    }
+
+    public boolean isTrainingMode() {
+        return isTraining;
     }
 } 

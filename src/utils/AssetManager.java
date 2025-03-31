@@ -16,11 +16,14 @@ public class AssetManager {
         loadImage("peashooter", "images/plants/peashooter.gif");
         loadImage("freezepeashooter", "images/plants/freezepeashooter.gif");
         loadImage("sunflower", "images/plants/sunflower.gif");
+        loadImage("walnut", "images/plants/walnut.gif");
+
         
         loadImage("card_peashooter", "images/cards/card_peashooter.png");
         loadImage("card_freezepeashooter", "images/cards/card_freezepeashooter.png");
         loadImage("card_sunflower", "images/cards/card_sunflower.png");
-        
+        loadImage("card_walnut", "images/cards/card_walnut.png");
+
         loadImage("pea", "images/pea.png");
         loadImage("freezepea", "images/freezepea.png");
         
@@ -28,6 +31,7 @@ public class AssetManager {
         loadImage("coneheadzombie", "images/zombies/zombie2.gif");
         
         loadImage("sun", "images/sun.png");
+
     }
     
     private static void loadImage(String key, String path) {

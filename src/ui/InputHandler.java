@@ -1,5 +1,6 @@
 package ui;
 
+import entities.plants.Walnut;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -10,6 +11,7 @@ import entities.plants.FreezePeashooter;
 import entities.plants.Peashooter;
 import entities.plants.Plant;
 import entities.plants.Sunflower;
+import entities.plants.Walnut;
 
 
 public class InputHandler extends MouseAdapter {
@@ -46,7 +48,7 @@ public class InputHandler extends MouseAdapter {
         }
     }
     
-    private void plantSelected(int gridX, int gridY) {
+    public void plantSelected(int gridX, int gridY) {
         Class<? extends Plant> selectedPlant = game.getWindow().getSelectedPlant();
         
         if (selectedPlant == null) {
@@ -71,11 +73,19 @@ public class InputHandler extends MouseAdapter {
         } else if (selectedPlant == FreezePeashooter.class) {
             plant = new FreezePeashooter(gameState, gridX, gridY);
             cost = 175;
+        } else if (selectedPlant == Walnut.class) {
+            plant = new Walnut(gameState, gridX, gridY);
+            cost = 50;
         }
         
         if (plant != null && gameState.spendSun(cost)) {
             gameState.addGameObject(plant);
+            gameState.setCardCooldown(
+                game.getWindow().getSelectedPlantCardIndex(), 
+                game.getWindow().getSelectedPlantCardCooldown()
+            );
             game.getWindow().clearSelection();
         }
     }
+
 } 

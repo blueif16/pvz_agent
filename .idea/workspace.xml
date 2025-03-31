@@ -5,81 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dc5d397-09b3-4108-83f3-9a4e2501e054" name="Default" comment="Reformatted code">
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/PlantsVsZombies.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/Game.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/gradle_wrapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pvz_agent.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/Connector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/RewardCounter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entities/plants/Walnut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/images/plants/walnut.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Game.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Game.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Collider.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ConeHeadZombie.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/FreezePea.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/FreezePeashooter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/GamePanel$PlantActionListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/GamePanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/GameWindow$PlantType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/GameWindow.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/LevelData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Menu$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Menu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/NormalZombie.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Pea.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Peashooter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Plant.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/PlantButton.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/PlantCard.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Sun.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Sunflower.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/Zombie.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/core/Game.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/core/GameObject.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/core/GameState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/Sun.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/plants/FreezePeashooter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/plants/Peashooter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/plants/Plant.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/plants/Sunflower.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/projectiles/FreezePea.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/projectiles/Pea.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/projectiles/Projectile.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/zombies/ConeHeadZombie.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/zombies/NormalZombie.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/entities/zombies/Zombie.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/cards/card_cherrybomb.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/cards/card_freezepeashooter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/cards/card_peashooter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/cards/card_sunflower.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/cards/card_wallnut.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/freezepea.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/mainBG.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/menu.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/pea.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/plants/freezepeashooter.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/plants/peashooter.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/plants/sunflower.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/sun.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/zombies/zombie1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/images/zombies/zombie2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/GameWindow$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/GameWindow$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/GameWindow$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/GameWindow.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/InputHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/PlantCard.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/PlantSelector$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/PlantSelector$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/PlantSelector$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/ui/PlantSelector.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/utils/AssetManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/utils/CollisionManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/utils/LevelManager$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/utils/LevelManager$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jPvZ/utils/LevelManager.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/plants/FreezePeashooter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/plants/FreezePeashooter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/plants/Peashooter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/plants/Peashooter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/plants/Plant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/plants/Plant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/plants/Sunflower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/plants/Sunflower.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/projectiles/Pea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/projectiles/Pea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/zombies/ConeHeadZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/zombies/ConeHeadZombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/zombies/NormalZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/zombies/NormalZombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/zombies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/zombies/Zombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/cards/card_wallnut.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/cards/card_walnut.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/PlantCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/PlantCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/AssetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/AssetManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -366,20 +323,23 @@
     "Application.Game.executor": "Run",
     "Application.GameWindow.executor": "Run",
     "Gradle.Build PlantsVsZombies.executor": "Run",
+    "Gradle.Build pvz_agent.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/ran/Desktop/intelli/pvz_agent",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -393,6 +353,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ran\Desktop\intelli\pvz_agent\src\images\plants" />
       <recent name="C:\Users\ran\Desktop\intelli\PlantsVsZombies\src\images\zombies" />
       <recent name="C:\Users\Armin\IdeaProjects\jPvZ\resources" />
     </key>
@@ -683,6 +644,8 @@
       <workItem from="1743279349085" duration="11735000" />
       <workItem from="1743309727626" duration="1831000" />
       <workItem from="1743313143212" duration="740000" />
+      <workItem from="1743314206012" duration="351000" />
+      <workItem from="1743314577679" duration="13690000" />
     </task>
     <task id="LOCAL-00001" summary="Reformatted code">
       <created>1545395229844</created>
@@ -747,17 +710,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reformatted code" />
     <option name="LAST_COMMIT_MESSAGE" value="Reformatted code" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ui/PlantCard.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />

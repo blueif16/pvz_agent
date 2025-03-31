@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import core.GameState;
+
 import javax.swing.JPanel;
 
 
@@ -15,11 +17,17 @@ public class PlantCard extends JPanel {
     private String plantName;
     private int cost;
     private boolean selected;
+    private final int cooldown;
+    private GameState gameState;
+    private int index;
     
-    public PlantCard(Image cardImage, String plantName, int cost) {
+    public PlantCard(GameState gameState, int index, Image cardImage, String plantName, int cost, int cooldown) {
+        this.gameState = gameState;
+        this.index = index;
         this.cardImage = cardImage;
         this.plantName = plantName;
         this.cost = cost;
+        this.cooldown = cooldown;
         this.selected = false;
         
         setOpaque(false);
@@ -32,9 +40,16 @@ public class PlantCard extends JPanel {
         g.drawImage(cardImage, 0, 0, getWidth() , getHeight() , null);
     }
     
-    public void setSelected(boolean selected) {
+    public boolean setSelected(boolean selected) {
+
+        // if (cooldown > 0){
+        //     return false;
+        // }
+        if (gameState.getCardCooldown(index) > 0){
+            return false;
+        }
         this.selected = selected;
-        repaint();
+        return true;
     }
     
     public boolean isSelected() {
@@ -44,4 +59,14 @@ public class PlantCard extends JPanel {
     public int getCost() {
         return cost;
     }
+
+    public int getCooldownSetting() {
+        return cooldown;
+    }
+
+    public int getCurrentCooldown() {
+        return gameState.getCardCooldown(index);
+    }
+
+    public String getPlantName() {return plantName;}
 } 

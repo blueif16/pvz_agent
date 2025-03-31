@@ -16,7 +16,8 @@ public class GameState {
     private List<Zombie>[] zombies;
     private List<Projectile>[] projectiles;
     private List<Sun> suns;
-    
+    private List<Integer> cooldowns;
+
     private int sunScore = 150;
     private int progress = 0;
     private int currentLevel = 1;
@@ -36,6 +37,19 @@ public class GameState {
         }
         
         suns = new ArrayList<>();
+        cooldowns = new ArrayList<>();
+
+        for (int i = 0; i < 4; i++) {
+            cooldowns.add(0);
+        }
+    }
+
+    public void decreaseCooldowns() {
+        for (int i = 0; i < 4; i++) {
+            if (cooldowns.get(i) > 0) {
+                cooldowns.set(i, cooldowns.get(i) - 1);
+            }
+        }
     }
     
     public void update(float deltaTime) {
@@ -144,5 +158,13 @@ public class GameState {
     
     public void setCurrentLevel(int level) {
         this.currentLevel = level;
+    }
+
+    public void setCardCooldown(int index, int cooldown) {
+        cooldowns.set(index, cooldown);
+    }
+
+    public int getCardCooldown(int index) {
+        return cooldowns.get(index);
     }
 } 

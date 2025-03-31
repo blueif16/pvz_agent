@@ -9,7 +9,7 @@ public class FreezePeashooter extends Plant {
     private static final float SHOOT_COOLDOWN = 2.0f;
     
     public FreezePeashooter(GameState gameState, int gridX, int lane) {
-        super(gameState, gridX, lane, COST, HEALTH, "freezepeashooter");
+        super(gameState, gridX, lane, COST, HEALTH, "freezepeashooter", "Freeze Peashooter");
         this.cooldown = SHOOT_COOLDOWN;
         this.cooldownTimer = cooldown;
     }

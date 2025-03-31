@@ -89,6 +89,10 @@ public abstract class Zombie extends GameObject {
     public int getLane() {
         return lane;
     }
+
+    public int getColumn() {
+        return (int)x / 100;
+    }
     
     public int getHealth() {
         return health;
