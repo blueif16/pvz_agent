@@ -79,13 +79,13 @@ public class Game extends Canvas implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
 
-            cumDelta ++;
+            cumDelta += (now - lastTime) / ns;
 
             if (cumDelta >= 30 && isTraining) {
                 int[] actionMask = rewardCounter.getActionMask();
                 int actionIndex = Connector.send(gameState, actionMask, rewardCounter.getReward());
                 
-                // Execute the selected action
+
                 rewardCounter.executeAction(actionIndex, this);
                 
                 cumDelta = 0;

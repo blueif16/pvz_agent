@@ -143,14 +143,6 @@ public class Connector {
     
     // Fallback strategy if connection fails
     private static int fallbackStrategy(int[] actionMask) {
-        // Find the first valid action
-        for (int i = 0; i < actionMask.length; i++) {
-            if (actionMask[i] == 1) {
-                return i;
-            }
-        }
-        
-        // If no valid actions (shouldn't happen), return DO_NOTHING
         return RewardCounter.ACTION_DO_NOTHING;
     }
 }
