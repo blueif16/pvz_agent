@@ -21,21 +21,20 @@ public class GameState {
     private int sunScore = 150;
     private int progress = 0;
     private int currentLevel = 1;
-    
 
     public GameState() {
         gameObjects = new CopyOnWriteArrayList<>();
-        
+
         plants = new ArrayList[5];
         zombies = new ArrayList[5];
         projectiles = new ArrayList[5];
-        
+
         for (int i = 0; i < 5; i++) {
             plants[i] = new ArrayList<>();
             zombies[i] = new ArrayList<>();
             projectiles[i] = new ArrayList<>();
         }
-        
+
         suns = new ArrayList<>();
         cooldowns = new ArrayList<>();
 
@@ -51,25 +50,25 @@ public class GameState {
             }
         }
     }
-    
+
     public void update(float deltaTime) {
         for (GameObject obj : gameObjects) {
             if (obj.isActive()) {
                 obj.update(deltaTime);
             }
         }
-        
+
         gameObjects.removeIf(obj -> !obj.isActive());
-        
+
         for (int i = 0; i < 5; i++) {
             plants[i].removeIf(plant -> !plant.isActive());
             zombies[i].removeIf(zombie -> !zombie.isActive());
             projectiles[i].removeIf(projectile -> !projectile.isActive());
         }
-        
+
         suns.removeIf(sun -> !sun.isActive());
     }
-    
+
     public void render(Graphics g) {
         for (GameObject obj : gameObjects) {
             if (obj.isActive()) {
@@ -77,10 +76,10 @@ public class GameState {
             }
         }
     }
-    
+
     public void addGameObject(GameObject obj) {
         gameObjects.add(obj);
-        
+
         if (obj instanceof Plant) {
             Plant plant = (Plant) obj;
             plants[plant.getLane()].add(plant);
@@ -94,10 +93,10 @@ public class GameState {
             suns.add((Sun) obj);
         }
     }
-    
+
     public void removeGameObject(GameObject obj) {
         gameObjects.remove(obj);
-        
+
         if (obj instanceof Plant) {
             Plant plant = (Plant) obj;
             plants[plant.getLane()].remove(plant);
@@ -115,27 +114,27 @@ public class GameState {
     public List<Plant> getPlantsInLane(int lane) {
         return plants[lane];
     }
-    
+
     public List<Zombie> getZombiesInLane(int lane) {
         return zombies[lane];
     }
-    
+
     public List<Projectile> getProjectilesInLane(int lane) {
         return projectiles[lane];
     }
-    
+
     public List<Sun> getSuns() {
         return suns;
     }
-    
+
     public int getSunScore() {
         return sunScore;
     }
-    
+
     public void addSunScore(int amount) {
         this.sunScore += amount;
     }
-    
+
     public boolean spendSun(int amount) {
         if (sunScore >= amount) {
             sunScore -= amount;
@@ -143,19 +142,19 @@ public class GameState {
         }
         return false;
     }
-    
+
     public int getProgress() {
         return progress;
     }
-    
+
     public void addProgress(int amount) {
         this.progress += amount;
     }
-    
+
     public int getCurrentLevel() {
         return currentLevel;
     }
-    
+
     public void setCurrentLevel(int level) {
         this.currentLevel = level;
     }
@@ -167,4 +166,9 @@ public class GameState {
     public int getCardCooldown(int index) {
         return cooldowns.get(index);
     }
-} 
+
+    // 新增：重置进度方法，在加载新关卡时调用，确保进度从 0 开始
+    public void resetProgress() {
+        this.progress = 0;
+    }
+}

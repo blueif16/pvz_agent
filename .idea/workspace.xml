@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dc5d397-09b3-4108-83f3-9a4e2501e054" name="Default" comment="Reformatted code">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/pvz_agent/core/Connector.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/pvz_agent/core/Connector.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/Connector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Connector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/PlantCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/PlantCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/LevelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/LevelManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -301,7 +306,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ran/Desktop/intelli/pvz_agent",
+    "last_opened_file_path": "/Users/gin/Desktop/CS5004/pvz_agent",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -310,7 +315,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -495,6 +500,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="js.build_tools.gulp">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method v="2" />
+    </configuration>
     <configuration name="Game (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="core.Game" />
       <module name="PlantsVsZombies" />
@@ -511,8 +537,7 @@
     </configuration>
     <configuration name="GameWindow" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GameWindow" />
-      <module name="jPvZ" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <module name="pvz_agent" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -545,27 +570,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="mocha-javascript-test-runner">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <working-directory />
-      <pass-parent-env>true</pass-parent-env>
-      <ui>bdd</ui>
-      <extra-mocha-options />
-      <test-kind>DIRECTORY</test-kind>
-      <test-directory />
-      <recursive>false</recursive>
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Application.Game" />
       <item itemvalue="Application.Game (1)" />
@@ -573,18 +577,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Game (1)" />
         <item itemvalue="Application.GameWindow" />
+        <item itemvalue="Application.Game (1)" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.117" />
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.117" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
