@@ -1,11 +1,12 @@
 package core;
 
+import entities.zombies.Zombie;
 import java.util.ArrayList;
 import entities.plants.Plant;
 
 public class RewardCounter {
-    private int reward;
     private GameState gameState;
+    private double reward;
     
     // Total number of actions: 4 plant types * 5 lanes * 9 columns + 1 (collect sun) + 1 (do nothing)
     public static final int ACTION_SPACE_SIZE = 4 * 5 * 9 + 2;
@@ -16,15 +17,13 @@ public class RewardCounter {
 
     
     public RewardCounter(GameState gs) {
-        reward = 0;
         gameState = gs;
     }
     
     public void collectSun() {
         if (!gameState.getSuns().isEmpty()) {
-            gameState.removeGameObject(gameState.getSuns().get(0));
+            gameState.getSuns().get(0).collect();
         }
-        reward += 5;
     }
     
 
@@ -95,24 +94,28 @@ public class RewardCounter {
     
     public void executeAction(int actionIndex, Game game) {
         if (actionIndex == ACTION_DO_NOTHING) {
-
             return;
         }
         
         if (actionIndex == ACTION_COLLECT_SUN) {
-  
             collectSun();
             return;
         }
 
         int adjustedIndex = actionIndex - 2; 
-
         int plantType = adjustedIndex / (5 * 9); 
         int remainingIndex = adjustedIndex % (5 * 9);
         int lane = remainingIndex / 9;
         int col = remainingIndex % 9;
         
- 
+        // Check if the action is valid before executing
+        int[] actionMask = getActionMask();
+        if (actionMask[actionIndex] == 0) {
+            // Invalid action, do nothing
+            return;
+        }
+        
+        // Select the appropriate plant type
         switch (plantType) {
             case 0: // Sunflower
                 game.getWindow().selectPlant(entities.plants.Sunflower.class, 0);
@@ -129,30 +132,84 @@ public class RewardCounter {
         }
         
         // Plant at the specified location
+        // The InputHandler.plantSelected method will handle setting the cooldown
         game.getInputHandler().plantSelected(col, lane);
     }
     
-    public void addRewardForSurvive(int timeDelta) {
-        reward += timeDelta;
-    }
-    
-    public void setReward(int incre) {
-        reward += incre;
-    }
-    
-    public int getReward() {
-        return reward;
-    }
-    
-    public GameState getGameState() {
-        return gameState;
-    }
-    
-    public void resetReward() {
-        reward = 0;
-    }
     
     public static int getActionSpaceSize() {
         return ACTION_SPACE_SIZE;
+    }
+
+    public static float[] processGameState(GameState gameState) {
+        // Create a 1D array to hold all state information
+        // Format: [tensor (3x5x9 flattened), gameInfo (6 values)]
+        float[] state = new float[3*5*9 + 6];
+        
+        // Fill tensor data (flattened 3D tensor)
+        int index = 0;
+        
+        // Layer 0: Plant types
+        for (int lane = 0; lane < 5; lane++) {
+            for (int col = 0; col < 9; col++) {
+                int plantType = 0;
+                for (Plant plant : gameState.getPlantsInLane(lane)) {
+                    if (plant.getGridX() == col) {
+                        plantType = getPlantTypeId(plant);
+                        break;
+                    }
+                }
+                state[index++] = plantType;
+            }
+        }
+        
+        // Layer 1: Plant health
+        for (int lane = 0; lane < 5; lane++) {
+            for (int col = 0; col < 9; col++) {
+                int plantHealth = 0;
+                for (Plant plant : gameState.getPlantsInLane(lane)) {
+                    if (plant.getGridX() == col) {
+                        plantHealth = plant.getHealth();
+                        break;
+                    }
+                }
+                state[index++] = plantHealth;
+            }
+        }
+        
+        // Layer 2: Zombie health
+        for (int lane = 0; lane < 5; lane++) {
+            for (int col = 0; col < 9; col++) {
+                int zombieHealth = 0;
+                for (Zombie zombie : gameState.getZombiesInLane(lane)) {
+                    if (zombie.getColumn() == col) {
+                        zombieHealth += zombie.getHealth();
+                    }
+                }
+                state[index++] = zombieHealth;
+            }
+        }
+        
+        // Game info
+        state[index++] = gameState.getSunScore();
+        state[index++] = gameState.getSuns().size();
+        
+        // Card cooldowns
+        for (int i = 0; i < 4; i++) {
+            state[index++] = gameState.getCardCooldown(i);
+        }
+        
+        return state;
+    }
+    
+    private static int getPlantTypeId(Plant plant) {
+        String className = plant.getName();
+        switch (className) {
+            case "Sunflower": return 1;
+            case "Peashooter": return 2;
+            case "FreezePeashooter": return 3;
+            case "Walnut": return 4;
+            default: return 0;
+        }
     }
 }

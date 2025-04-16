@@ -32,12 +32,12 @@ public class GameWindow {
     private Class<? extends Plant> selectedPlant;
     private int selectedPlantCardIndex;
     
-    // Training mode toggle
-    private Rectangle trainingToggleRect;
-    private boolean trainingMode = false;
-
-    private JLabel trainingLabel;
+    // Agent mode toggle
+    private Rectangle agentToggleRect;
+    private boolean agentMode = false;
+    private JLabel agentLabel;
     
+
     public GameWindow(int width, int height, String title, Game game) {
         this.game = game;
         
@@ -61,8 +61,7 @@ public class GameWindow {
         sunScoreLabel.setFont(new Font("Arial", Font.BOLD, 14));
         layeredPane.add(sunScoreLabel, JLayeredPane.POPUP_LAYER);
         
-
-        initTrainingToggle();
+        initToggleButtons();
         
         createPlantCards();
         
@@ -74,35 +73,28 @@ public class GameWindow {
         game.start();
     }
     
-    private void initTrainingToggle() {
-
+    private void initToggleButtons() {
+        // Agent mode toggle
+        agentToggleRect = new Rectangle(955, 0, 30, 30);
         
-
-        trainingToggleRect = new Rectangle(955, 0, 30, 30);
+        agentLabel = new JLabel("Agent Mode");
+        agentLabel.setBounds(855, 0, 100, 30);
+        agentLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        agentLabel.setForeground(Color.BLACK);
+        layeredPane.add(agentLabel, JLayeredPane.POPUP_LAYER);
         
-
-        trainingLabel = new JLabel("Training Mode");
-        trainingLabel.setBounds(855, 0, 100, 30);
-        trainingLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        trainingLabel.setForeground(Color.BLACK);
-        layeredPane.add(trainingLabel, JLayeredPane.POPUP_LAYER);
         
-
-        game.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (trainingToggleRect.contains(e.getPoint())) {
-                    toggleTrainingMode();
-                }
-            }
-        });
+        // game.addMouseListener(new MouseAdapter() {
+        //     @Override
+        //     public void mouseClicked(MouseEvent e) {
+        //         if (agentToggleRect.contains(e.getPoint())) {
+        //             toggleAgentMode();
+        //         } 
+        //     }
+        // });
     }
     
-    private void toggleTrainingMode() {
-        trainingMode = !trainingMode;
-        game.setTrainingMode(trainingMode);
-        System.out.println("Training mode: " + (trainingMode ? "ON" : "OFF"));
-    }
+
     
     private void createPlantCards() {
         plantCards = new PlantCard[4];
@@ -149,37 +141,40 @@ public class GameWindow {
     }
     
     public void selectPlant(Class<? extends Plant> plantClass, int cardIndex) {
-        plantCards[cardIndex].setSelected(true);
-        selectedPlantCardIndex = cardIndex;
-        System.out.println(plantCards[cardIndex].getPlantName());
-        selectedPlant = plantClass;
+        boolean success = plantCards[cardIndex].setSelected(true);
+        if (success) {
+            selectedPlantCardIndex = cardIndex;
+            // System.out.println(plantCards[cardIndex].getPlantName() + " " + game.getGameState().getCardCooldown(cardIndex));
+            selectedPlant = plantClass;
+        }
     }
     
     public void renderUI(Graphics g) {
         sunScoreLabel.setText("Sun: " + game.getGameState().getSunScore());
         
-
-        if (trainingMode) {
+        // Render agent mode toggle
+        if (agentMode) {
             g.setColor(Color.GREEN);
-            g.fillRect(trainingToggleRect.x, trainingToggleRect.y, 
-                        trainingToggleRect.width, trainingToggleRect.height);
+            g.fillRect(agentToggleRect.x, agentToggleRect.y, 
+                        agentToggleRect.width, agentToggleRect.height);
             g.setColor(Color.BLACK);
-            g.drawRect(trainingToggleRect.x, trainingToggleRect.y, 
-                        trainingToggleRect.width, trainingToggleRect.height);
-            g.drawLine(trainingToggleRect.x, trainingToggleRect.y, 
-                        trainingToggleRect.x + trainingToggleRect.width, 
-                        trainingToggleRect.y + trainingToggleRect.height);
-            g.drawLine(trainingToggleRect.x + trainingToggleRect.width, trainingToggleRect.y, 
-                        trainingToggleRect.x, trainingToggleRect.y + trainingToggleRect.height);
+            g.drawRect(agentToggleRect.x, agentToggleRect.y, 
+                        agentToggleRect.width, agentToggleRect.height);
+            g.drawLine(agentToggleRect.x, agentToggleRect.y, 
+                        agentToggleRect.x + agentToggleRect.width, 
+                        agentToggleRect.y + agentToggleRect.height);
+            g.drawLine(agentToggleRect.x + agentToggleRect.width, agentToggleRect.y, 
+                        agentToggleRect.x, agentToggleRect.y + agentToggleRect.height);
         } else {
             g.setColor(Color.WHITE);
-            g.fillRect(trainingToggleRect.x, trainingToggleRect.y, 
-                        trainingToggleRect.width, trainingToggleRect.height);
+            g.fillRect(agentToggleRect.x, agentToggleRect.y, 
+                        agentToggleRect.width, agentToggleRect.height);
             g.setColor(Color.BLACK);
-            g.drawRect(trainingToggleRect.x, trainingToggleRect.y, 
-                        trainingToggleRect.width, trainingToggleRect.height);
+            g.drawRect(agentToggleRect.x, agentToggleRect.y, 
+                        agentToggleRect.width, agentToggleRect.height);
         }
         
+    
     }
     
     public Class<? extends Plant> getSelectedPlant() {
@@ -190,8 +185,8 @@ public class GameWindow {
         return selectedPlantCardIndex;
     }
 
-    public int getSelectedPlantCardCooldown() {
-        return plantCards[selectedPlantCardIndex].getCurrentCooldown();
+    public float getSelectedPlantCardCooldown() {
+        return plantCards[selectedPlantCardIndex].getCooldownSetting();
     }
     
     public void clearSelection() {
@@ -201,4 +196,21 @@ public class GameWindow {
         }
         selectedPlantCardIndex = -1;
     }
+
+    public void setAgentMode(boolean agentMode) {  
+        this.agentMode = agentMode;
+        // Update the UI to reflect the current mode
+        if (agentLabel != null) {
+            agentLabel.setForeground(agentMode ? Color.GREEN : Color.BLACK);
+        }
+    }
+
+    public void reset() {
+        // Reset plant cards
+        for (PlantCard card : plantCards) {
+            card.setSelected(false);
+        }
+        
+    }
+
 } 

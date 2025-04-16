@@ -64,7 +64,7 @@ public class PlantCard extends JPanel {
         return cooldown;
     }
 
-    public int getCurrentCooldown() {
+    public float getCurrentCooldown() {
         return gameState.getCardCooldown(index);
     }
 

@@ -56,6 +56,8 @@ public class Sun extends GameObject implements MouseListener {
         if (!collected) {
             collected = true;
             gameState.addSunScore(SUN_VALUE);
+
+            gameState.addReward(0.5);
         }
     }
     

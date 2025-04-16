@@ -34,6 +34,8 @@ public abstract class Zombie extends GameObject {
         if (health <= 0) {
             setActive(false);
             gameState.addProgress(10);
+
+            gameState.addReward(1);
             return;
         }
         
@@ -55,6 +57,9 @@ public abstract class Zombie extends GameObject {
         
         if (x < 0) {
             System.out.println("ZOMBIES ATE YOUR BRAIN!");
+
+            gameState.addReward(-1000);
+            gameState.terminate();
             
         }
     }
