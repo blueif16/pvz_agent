@@ -30,6 +30,7 @@ public class GameState {
     private boolean terminated = false;
     private LevelManager levelManager;
     private Game game;
+    private String terminationMessage = "";
     
 
     public GameState() {
@@ -172,6 +173,14 @@ public class GameState {
     
     public boolean isTerminated() {
         return terminated;
+    }
+    
+    public void setTerminationMessage(String message) {
+        this.terminationMessage = message;
+    }
+    
+    public String getTerminationMessage() {
+        return terminationMessage;
     }
     
     public void addGameObject(GameObject obj) {

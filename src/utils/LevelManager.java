@@ -19,11 +19,11 @@ public class LevelManager {
     private float zombieSpawnAccumulator = 0;
     private float sunSpawnAccumulator = 0;
     
-    // Spawn intervals in seconds
+    // Spawn intervals in seconds - 1 second = 100 delta time units = 1 agent step
     private float zombieSpawnInterval;
-    private final float SUN_SPAWN_INTERVAL = 20.0f;
-    private final float INITIAL_DELAY_ZOMBIE = 7.0f;
-    private final float INITIAL_DELAY_SUN = 5.0f;
+    private final float SUN_SPAWN_INTERVAL = 20.0f; // 20 seconds between sun spawns
+    private final float INITIAL_DELAY_ZOMBIE = 7.0f; // 7 seconds before first zombie
+    private final float INITIAL_DELAY_SUN = 5.0f; // 5 seconds before first sun
     private boolean initialZombieDelayPassed = false;
     private boolean initialSunDelayPassed = false;
     
@@ -55,7 +55,11 @@ public class LevelManager {
         initialSunDelayPassed = false;
         
         // Calculate zombie spawn interval based on level
-        zombieSpawnInterval = Math.max(2.0f, 20.0f - (currentLevel * 1.0f));
+        // In the new time scale (1 second = 100 delta):
+        // Level 1: 19.5 seconds between zombies
+        // Level 2: 19.0 seconds between zombies
+        // Level N: Min(2.0, 20.0 - (N * 0.5)) seconds between zombies
+        zombieSpawnInterval = Math.max(2.0f, 20.0f - (currentLevel * 0.5f));
     }
     
     private void spawnSun() {

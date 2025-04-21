@@ -39,7 +39,7 @@ public class Game extends Canvas implements Runnable {
     
     // Default constructor for normal game mode
     public Game() {
-        this(100000, false); // Default max steps
+        this(1000000000, false); // Default max steps
     }
     
     // Constructor with maxStep for training mode
@@ -111,7 +111,7 @@ public class Game extends Canvas implements Runnable {
         // Explicitly help GC
         System.gc();
 
-        totalStep = 0;
+        this.totalStep = 0;
         // isDone = false;
         // truncated = false;
 
@@ -133,23 +133,22 @@ public class Game extends Canvas implements Runnable {
         
         float[] final_obs = null;
 
-        // Run simulation for fixed number of steps
-        for (int i = 0; i < 30; i++) {
-            update(1.0f / 60.0f);
+        // Run simulation for fixed number of steps - 100 deltas = 1 second game time per step
+        for (int i = 0; i < 100; i++) {
+            update(0.01f); // 100 of these = 1 second game time
 
-            if (i % 10 == 0) {
+            if (i % 25 == 0) {
                 render();
             }   
 
             if (gameState.isTerminated()) {
                 isDone = true;
-                // System.out.println("Game terminated from java game");
                 break;
             } 
         }
 
         // Check if max steps reached
-        truncated = ++totalStep >= maxStep;
+        truncated = ++this.totalStep >= this.maxStep;
         double reward;
 
         // Handle episode end conditions
@@ -169,7 +168,7 @@ public class Game extends Canvas implements Runnable {
         }
         else {
             // Add small reward for surviving
-            gameState.addReward(0.05);
+            gameState.addReward(0.1);
             reward = gameState.getReward() - initialReward;
         }
 
@@ -186,7 +185,7 @@ public class Game extends Canvas implements Runnable {
     @Override
     public void run() {
         long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0;
+        double amountOfTicks = 100.0; // 100 ticks per second
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -198,10 +197,20 @@ public class Game extends Canvas implements Runnable {
             lastTime = now;
             
             while (delta >= 1) {
-                update(1.0f / 60.0f);
+                update(0.01f); // 100 delta = 1 second
                 updateCount++;
 
                 if (gameState.isTerminated()) {
+                    // Render one more time to show the termination message
+                    render();
+                    
+                    // Wait for a few seconds before stopping
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    
                     running = false;
                     break;
                 }
@@ -247,6 +256,15 @@ public class Game extends Canvas implements Runnable {
         if (window != null) {
             window.renderUI(g);
 //            System.out.println("Rendering, current reward: " + gameState.getReward());
+        }
+        
+        // Display termination message if game is terminated
+        if (gameState.isTerminated() && !gameState.getTerminationMessage().isEmpty()) {
+            g.setColor(Color.WHITE);
+            g.setFont(g.getFont().deriveFont(50.0f));
+            String message = gameState.getTerminationMessage();
+            int messageWidth = g.getFontMetrics().stringWidth(message);
+            g.drawString(message, (WIDTH - messageWidth) / 2, HEIGHT / 2);
         }
         
         g.dispose();

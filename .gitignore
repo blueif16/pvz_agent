@@ -47,3 +47,12 @@ hs_err_pid*
 # Logs
 logs/
 *.log
+
+
+agent/models/
+agent/runs/
+agent/logs/
+agent/checkpoints/
+agent/results/
+agent/data/
+agent/results/

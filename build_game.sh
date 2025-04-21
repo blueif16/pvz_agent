@@ -23,10 +23,10 @@ cd ..
 
 # Create JAR file, which now includes your compiled classes and assets
 cd build
-jar cfm ../PlantsVsZombies.jar ../MANIFEST.MF .
+jar cfm ../PlantsVsZombies_game.jar ../MANIFEST.MF .
 cd ..
 
 # Make JAR executable
-chmod +x PlantsVsZombies.jar
+chmod +x PlantsVsZombies_game.jar
 
-echo "Build complete. Run with: java -jar PlantsVsZombies.jar"
+echo "Build complete. Run with: java -jar PlantsVsZombies_game.jar"
