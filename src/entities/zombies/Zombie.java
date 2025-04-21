@@ -55,10 +55,10 @@ public abstract class Zombie extends GameObject {
             x -= actualSpeed * deltaTime;
         }
         
-        if (x < 0) {
+        if (x <= 0) {
             System.out.println("ZOMBIES ATE YOUR BRAIN!");
 
-            gameState.addReward(-1000);
+            gameState.addReward(-10);
             gameState.terminate();
             
         }

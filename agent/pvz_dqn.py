@@ -16,6 +16,7 @@ import subprocess
 import atexit
 import signal
 import sys
+from datetime import datetime
 from replayBuffer import ReplayBuffer
 import gymnasium as gym
 
@@ -30,21 +31,23 @@ class PvZQNetwork(nn.Module):
             nn.ReLU(),
             nn.Conv2d(16, 32, kernel_size=3, padding=1),
             nn.ReLU(),
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.ReLU(),
             nn.Flatten()
         )
         
         # Calculate the size after flattening
-        conv_output_size = 32 * 5 * 9
+        conv_output_size = 64 * 5 * 9
         
         # Process the game info vector
         self.game_info_layers = nn.Sequential(
-            nn.Linear(6, 32),
+            nn.Linear(6, 64),
             nn.ReLU()
         )
         
         # Combine both processed inputs
         self.combined_layers = nn.Sequential(
-            nn.Linear(conv_output_size + 32, 256),
+            nn.Linear(conv_output_size + 64, 256),
             nn.ReLU(),
             nn.Linear(256, 128),
             nn.ReLU(),
@@ -124,7 +127,7 @@ class GameConnector:
             print(f"Error starting connector: {e}")
             return False
     
-    def create_envs(self, num_envs, max_steps=1000, training_mode=True):
+    def create_envs(self, num_envs, max_steps=10000, training_mode=True):
         """Request the connector to create game environments."""
         try:
             # Create command message
@@ -325,21 +328,27 @@ class PvZDQNAgent:
         self.num_envs = num_envs
         self.fast_training = fast_training
         self.action_space_size = 182  # 4*5*9 + 2 (do nothing + collect sun)
-        self.buffer_size = 10000
-        self.batch_size = 128
-        self.gamma = 0.99
-        self.learning_rate = 2.5e-4
+        self.buffer_size = 50000      # Increased from 10000 to 50000 for more stable learning
+        self.batch_size = 256         # Increased from 128 to 256 for better gradient estimation
+        self.gamma = 0.995            # Increased from 0.99 to 0.995 for longer-term rewards
+        self.learning_rate = 1e-4     # Decreased from 2.5e-4 to 1e-4 for more stable learning
         self.epsilon = 1.0
         self.epsilon_start = 1.0
         self.epsilon_final = 0.05
-        self.epsilon_decay = 50000
-        self.target_update_freq = 500
+        self.epsilon_decay = 200000   # Increased from 100000 to 200000 for more exploration
+        self.target_update_freq = 1000 # Decreased from 2000 to 1000 for more frequent target updates
         self.global_step = 0
 
-        # Training parameters(needs to be tuned)
-        self.learning_starts = 1000
-        self.train_frequency = 4
+        # Training parameters
+        self.learning_starts = 5000   # Increased from 4000 to 5000 to collect more initial experiences
+        self.train_frequency = 4      # Decreased from 500 to 4 for more frequent updates (every 4 steps)
         self.should_save_model = True
+        self.save_freq = 10000        # Increased from 5000 to 10000 to save less frequently
+
+        self.step_interval = 0.00001
+
+        self.runs_cumulative_reward = []
+        self.recent_losses = []       # Track recent losses for logging
         
         # Initialize replay buffer
         self.observation_space = gym.spaces.Box(low=0, high=255, shape=(3*5*9 + 6,), dtype=np.float32)
@@ -359,9 +368,9 @@ class PvZDQNAgent:
         self.optimizer = None
         
         # Initialize tracking variables
-        self.episode_rewards = []
+        self.episode_rewards = [[0] for _ in range(self.num_envs)]
         self.writer = SummaryWriter(f"runs/pvz_dqn_{int(time.time())}")
-        self.reward_buffer = deque(maxlen=500)
+        # self.reward_buffer = deque(maxlen=500)
         self.total_steps = 0
     
     def initialize_networks(self, input_shape=(3, 5, 9)):
@@ -490,9 +499,29 @@ class PvZDQNAgent:
         
         # Compute Huber loss
         loss = F.smooth_l1_loss(state_action_values, expected_state_action_values)
+        loss_value = loss.item()
+        
+        # Store loss for logging
+        self.recent_losses.append(loss_value)
+        if len(self.recent_losses) > 100:  # Keep only the last 100 losses
+            self.recent_losses.pop(0)
 
-        if self.global_step % 1000 == 0:
-            print("loss: ", loss.item())
+        if self.global_step % 10000 == 0:
+            print(f"Loss: {loss_value:.6f}")
+            
+            # Log loss to file periodically
+            log_dir = "logs"
+            os.makedirs(log_dir, exist_ok=True)
+            loss_log_file = os.path.join(log_dir, "loss_log.txt")
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            with open(loss_log_file, "a") as f:
+                f.write(f"{timestamp} | Step: {self.global_step} | Loss: {loss_value:.6f}")
+                if len(self.recent_losses) >= 10:
+                    avg_loss = np.mean(self.recent_losses[-10:])
+                    f.write(f" | Avg Loss (10): {avg_loss:.6f}\n")
+                else:
+                    f.write("\n")
         
         # Optimize the model
         self.optimizer.zero_grad()
@@ -507,9 +536,9 @@ class PvZDQNAgent:
             self.target_network.load_state_dict(self.q_network.state_dict())
             print("Target network updated")
         
-        # Log loss
+        # Log loss to tensorboard
         if self.global_step % 100 == 0:
-            self.writer.add_scalar("losses/q_loss", loss.item(), self.global_step)
+            self.writer.add_scalar("losses/q_loss", loss_value, self.global_step)
             self.writer.add_scalar("training/epsilon", self.epsilon, self.global_step)
     
     def run(self, max_steps=100000, training_mode=True):
@@ -592,39 +621,104 @@ class PvZDQNAgent:
                 if self.global_step % self.target_update_freq == 0:
                     self.target_network.load_state_dict(self.q_network.state_dict())
                     print("Target network updated")
-                    if self.should_save_model:
+                    if self.should_save_model and self.global_step % self.save_freq == 0:
+                        # Delete previous checkpoint models (except final models)
+                        model_dir = "models"
+                        os.makedirs(model_dir, exist_ok=True)
+                        if os.path.exists(model_dir):
+                            for file in os.listdir(model_dir):
+                                if file.startswith("pvz_dqn_step") and file.endswith(".pt"):
+                                    try:
+                                        os.remove(os.path.join(model_dir, file))
+                                        print(f"Deleted previous model: {file}")
+                                    except Exception as e:
+                                        print(f"Error deleting model {file}: {e}")
+                                
+                        # Save new model
                         self.save_model(f"models/pvz_dqn_step{self.global_step}.pt")
+                        avg_reward = np.mean(self.runs_cumulative_reward[-self.save_freq:])
+                        print(f"Past {self.save_freq} episode average rewards: {avg_reward:.4f}")
+                        
+                        # Log to file
+                        log_dir = "logs"
+                        os.makedirs(log_dir, exist_ok=True)
+                        log_file = os.path.join(log_dir, "reward_log.txt")
+                        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        with open(log_file, "a") as f:
+                            f.write(f"{timestamp} | Step: {self.global_step} | Avg Reward ({self.save_freq} ep): {avg_reward:.4f}")
+                
                 
                 # Log training progress
                 if self.global_step % 100 == 0:
                     print(f"Step: {self.global_step}, Epsilon: {self.epsilon:.4f}")
                 
                 # Store rewards
-                for env_idx in range(self.num_envs):
-                    self.reward_buffer.append(rewards[env_idx])
-                    self.total_steps += 1
+                # for env_idx in range(self.num_envs):
+                #     self.reward_buffer.append(rewards[env_idx])
+                #     self.total_steps += 1
                     
-                    # Print statistics every 500 steps
-                    if self.total_steps % 500 == 0:
-                        avg_reward = np.mean(self.reward_buffer)
-                        print(f"Step {self.total_steps}: Avg reward (last 500) = {avg_reward:.2f}")
+                    # # Print statistics every 500 steps
+                    # if self.total_steps % 500 == 0:
+                    #     avg_reward = np.mean(self.reward_buffer)
+                    #     print(f"Step {self.total_steps}: Avg reward (last 500) = {avg_reward:.2f}")
                     
                 # Episode tracking
-                for done in dones:
-                    if done:
-                        if len(self.episode_rewards) > 0:
-                            avg_ep_reward = np.mean(self.episode_rewards[-100:])
-                            print(f"Episode {len(self.episode_rewards)}: Avg reward (last 100) = {avg_ep_reward:.2f}")
-                        self.episode_rewards.append(np.sum(rewards))
-                        rewards = []
+
+                
+                for env_idx in range(self.num_envs):
+                    # print("dones: ", dones[env_idx], "truncateds: ", truncateds[env_idx], "cumulative rewards: ", np.sum(self.episode_rewards[env_idx]))
+                    self.episode_rewards[env_idx].append(rewards[env_idx])
+                    if dones[env_idx] or truncateds[env_idx]:
+                        
+                        total_ep_reward = np.sum(self.episode_rewards[env_idx])
+                        print(f"Env {env_idx} terminated: Total reward = {total_ep_reward:.2f}")
+
+                        self.runs_cumulative_reward.append(total_ep_reward)
+
+                        self.episode_rewards[env_idx] = []
+                    
+                 
                 
                 # Sleep to avoid overwhelming the CPU
-                time.sleep(0.001)
+                time.sleep(self.step_interval)
                 
         except KeyboardInterrupt:
             print("Training interrupted")
             if self.should_save_model:
+                # Delete any existing final models
+                model_dir = "models"
+                os.makedirs(model_dir, exist_ok=True)
+                if os.path.exists(model_dir):
+                    for file in os.listdir(model_dir):
+                        if file == "pvz_dqn_final.pt":
+                            try:
+                                os.remove(os.path.join(model_dir, file))
+                                print(f"Deleted previous final model")
+                            except Exception as e:
+                                print(f"Error deleting final model: {e}")
+                
+                # Save new final model
                 self.save_model("models/pvz_dqn_final.pt")
+                
+                # Log final rewards
+                log_dir = "logs"
+                os.makedirs(log_dir, exist_ok=True)
+                log_file = os.path.join(log_dir, "reward_log.txt")
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                avg_reward = np.mean(self.runs_cumulative_reward[-100:]) if len(self.runs_cumulative_reward) > 0 else 0
+                with open(log_file, "a") as f:
+                    f.write(f"{timestamp} | FINAL | Step: {self.global_step} | Avg Reward (100 ep): {avg_reward:.4f}")
+                    
+                    # Also log average loss if we have loss data
+                    if self.recent_losses:
+                        avg_loss = np.mean(self.recent_losses[-min(len(self.recent_losses), 100):])
+                        f.write(f" | Avg Loss (100): {avg_loss:.6f}")
+                    
+                    f.write("\n\n")
+                    if len(self.runs_cumulative_reward) >= 100:
+                        f.write(f"Last 100 rewards: {','.join([f'{r:.2f}' for r in self.runs_cumulative_reward[-100:]])}\n\n")
+                    else:
+                        f.write(f"All rewards so far: {','.join([f'{r:.2f}' for r in self.runs_cumulative_reward])}\n\n")
     
     def save_model(self, path):
         """Save the Q-network to a file."""

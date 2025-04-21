@@ -91,6 +91,7 @@ public class Game extends Canvas implements Runnable {
         gameState = new GameState();
         gameState.setGame(this);
 
+
         levelManager = new LevelManager(gameState);
         gameState.setLevelManager(levelManager);
 
@@ -111,8 +112,8 @@ public class Game extends Canvas implements Runnable {
         System.gc();
 
         totalStep = 0;
-        isDone = false;
-        truncated = false;
+        // isDone = false;
+        // truncated = false;
 
         int[] actionMask = rewardCounter.getActionMask();
         float[] state = RewardCounter.processGameState(gameState);
@@ -142,6 +143,7 @@ public class Game extends Canvas implements Runnable {
 
             if (gameState.isTerminated()) {
                 isDone = true;
+                // System.out.println("Game terminated from java game");
                 break;
             } 
         }
@@ -154,14 +156,14 @@ public class Game extends Canvas implements Runnable {
         if (isDone) {
             // Game over - zombie reached house or all zombies defeated
             // final_obs = RewardCounter.processGameState(gameState);
-            reward = gameState.getReward() - initialReward;
+            reward = Math.max(gameState.getReward() - initialReward, -10);
             reset(); 
             
         }
         else if (truncated) {
             // Max steps reached
             final_obs = RewardCounter.processGameState(gameState);
-            reward = gameState.getReward() - initialReward;
+            reward = Math.max(gameState.getReward() - initialReward, -10);
             reset();
             
         }
@@ -175,6 +177,9 @@ public class Game extends Canvas implements Runnable {
         float[] newState = RewardCounter.processGameState(gameState);
         int[] newActionMask = rewardCounter.getActionMask();    
 
+        // if (isDone) {
+        //     System.out.println("from java game: isDone: " + isDone + " truncated: " + truncated + " reward: " + reward);
+        // }
         return new StepInfo(newState, newActionMask, reward, isDone, truncated, final_obs);
     }   
     

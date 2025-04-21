@@ -99,6 +99,7 @@ public class RewardCounter {
         
         if (actionIndex == ACTION_COLLECT_SUN) {
             collectSun();
+            gameState.addReward(0.1);
             return;
         }
 
@@ -119,9 +120,11 @@ public class RewardCounter {
         switch (plantType) {
             case 0: // Sunflower
                 game.getWindow().selectPlant(entities.plants.Sunflower.class, 0);
+                gameState.addReward(0.1);
                 break;
             case 1: // Peashooter
                 game.getWindow().selectPlant(entities.plants.Peashooter.class, 1);
+                gameState.addReward(0.5);
                 break;
             case 2: // FreezePeashooter
                 game.getWindow().selectPlant(entities.plants.FreezePeashooter.class, 2);

@@ -225,7 +225,7 @@ class GameConnector:
             return False
 
 class PvZAgent:
-    def __init__(self, num_envs=1, port=5555, dqn_agent=None, model_path='pvz_dqn_final.pt'):
+    def __init__(self, num_envs=1, port=5555, dqn_agent=None, model_path='pvz_dqn_step_11500.pt'):
         self.num_envs = num_envs
         self.connector = GameConnector(port=port)
         self.action_space_size = 182  # 4*5*9 + 2 (do nothing + collect sun)
